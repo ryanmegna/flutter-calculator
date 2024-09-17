@@ -32,12 +32,12 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
       if (value == 'C') {
         _expression = '';
         _result = '';
-      } else if (value == '=') {
+      } else if (value == '^2') {
         try {
           final expression = Expression.parse(_expression);
           final evaluator = const ExpressionEvaluator();
           final result = evaluator.eval(expression, {});
-          _result = result.toString();
+          _result = (result * result).toString();
         } catch (e) {
           _result = 'Error';
         }
@@ -47,80 +47,81 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
     });
   }
 
-  Widget _buildButton(String value) {
-    return Expanded(
-      child: ElevatedButton(
-        onPressed: () => _onPressed(value),
-        child: Text(value, style: TextStyle(fontSize: 24)),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Calculator Application'),
+        title: Text('Calculator'),
       ),
       body: Column(
         children: <Widget>[
           Expanded(
             child: Container(
               padding: EdgeInsets.all(16),
-              alignment: Alignment.bottomRight,
+              alignment: Alignment.centerRight,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
+                children: <Widget>[
                   Text(
                     _expression,
-                    style: TextStyle(fontSize: 32, color: Colors.black54),
+                    style: TextStyle(fontSize: 24),
                   ),
                   Text(
                     _result,
-                    style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 48),
                   ),
                 ],
               ),
             ),
           ),
-          Column(
-            children: [
-              Row(
-                children: [
-                  _buildButton('7'),
-                  _buildButton('8'),
-                  _buildButton('9'),
-                  _buildButton('/'),
-                ],
-              ),
-              Row(
-                children: [
-                  _buildButton('4'),
-                  _buildButton('5'),
-                  _buildButton('6'),
-                  _buildButton('*'),
-                ],
-              ),
-              Row(
-                children: [
-                  _buildButton('1'),
-                  _buildButton('2'),
-                  _buildButton('3'),
-                  _buildButton('-'),
-                ],
-              ),
-              Row(
-                children: [
-                  _buildButton('0'),
-                  _buildButton('C'),
-                  _buildButton('='),
-                  _buildButton('+'),
-                ],
-              ),
+          Row(
+            children: <Widget>[
+              _buildButton('7'),
+              _buildButton('8'),
+              _buildButton('9'),
+              _buildButton('/'),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              _buildButton('4'),
+              _buildButton('5'),
+              _buildButton('6'),
+              _buildButton('*'),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              _buildButton('1'),
+              _buildButton('2'),
+              _buildButton('3'),
+              _buildButton('-'),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              _buildButton('0'),
+              _buildButton('.'),
+              _buildButton('C'),
+              _buildButton('+'),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              _buildButton('^2'),
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildButton(String value) {
+    return Expanded(
+      child: ElevatedButton(
+        onPressed: () => _onPressed(value),
+        child: Text(value),
       ),
     );
   }
